@@ -1,0 +1,30 @@
+{
+  "short_name": "Palette-Picker",
+  "name": "Pick Some Colors You Like",
+  "background_color": "#dcaffd",
+  "theme_color": "#74c7fd",
+  "display": "fullscreen",
+  "icons": [
+    {
+      "src": "./pantone.svg",
+      "type": "image/svg",
+      "sizes": "48x48"
+    },
+    {
+      "src": "./pantone.svg",
+      "type": "image/svg",
+      "sizes": "96x96"
+    },
+    {
+      "src": "./pantone.svg",
+      "type": "image/svg",
+      "sizes": "192x192"
+    },
+    {
+      "src": "./pantone.svg",
+      "type": "image/svg",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "index.html?launcher=true"
+}

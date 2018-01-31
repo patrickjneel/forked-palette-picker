@@ -1,8 +1,10 @@
+
 $(document).ready(() => {
   allColors()
   fetchProjects()
   fetchPalettes()
 });
+
 
 const generateColor = () => {
   let length = 6;
@@ -206,3 +208,16 @@ $("#project-generate-btn").on('click', addProjectName);
 $('#save-palette-btn').on('click', savePalette);
 $('#save-palette-btn').on('click', addDomPalette);
 $(".projects").on('click', '.trash-can', (event) => deletePalette(event));
+
+
+if('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('../../service-worker.js')
+      .then(registration => {
+        console.log('Service worker successful')
+      })
+      .catch(error => {
+        console.log('Registeration failed')
+      })
+  })
+} 
