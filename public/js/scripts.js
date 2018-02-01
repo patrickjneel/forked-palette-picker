@@ -1,4 +1,5 @@
 
+
 $(document).ready(() => {
   allColors()
   fetchProjects()
@@ -202,22 +203,26 @@ const deletePalette = (event) => {
   $(event.target).closest('.template-color-card').remove()
 }
 
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    
+    navigator.serviceWorker.register('../service-worker.js')//../js.service-worker
+      .then(registration => navigator.serviceWorker.ready)
+      .then(registration => {
+        Notification.requestPermission();
+        console.log('ServiceWorker registration successful');
+      }).catch(err => {
+        console.log(`ServiceWorker registration failed: ${err}`);
+      });
+
+  });
+}
+
+
 $("#generate-btn").on('click', allColors);
 $(".unlocked").on('click', (event) => lockColor(event));
 $("#project-generate-btn").on('click', addProjectName);
 $('#save-palette-btn').on('click', savePalette);
 $('#save-palette-btn').on('click', addDomPalette);
 $(".projects").on('click', '.trash-can', (event) => deletePalette(event));
-
-
-if('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('../../service-worker.js')
-      .then(registration => {
-        console.log('Service worker successful')
-      })
-      .catch(error => {
-        console.log('Registeration failed')
-      })
-  })
-} 

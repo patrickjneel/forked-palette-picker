@@ -1,13 +1,12 @@
 this.addEventListener('install', event => {
   event.waitUntil(
-      caches.open('assets-v1').then(cache => {
+      caches.open('palette-assets-v1').then(cache => {
         return cache.addAll([
           '/',
-          './public/js/scripts.js',
-          './public/css/styles.css',
-          './pantone.svg'
-          // '/lib/jquery-3.2.1.js',
-          // '/lib/markdown-it.min.js'
+          '/css/styles.css',
+          '/pantone.svg'
+          '/js/scripts.js',
+          '/js/jquery.min.js'
         ])
       })
     )
@@ -22,7 +21,7 @@ this.addEventListener('fetch', event => {
 });
 
 this.addEventListener('activate', event => {
-  let cacheWhitelist = ['assets-v1'];
+  let cacheWhitelist = ['palette-assets-v1'];
 
   event.waitUntil(
     caches.keys().then(keyList => {
@@ -33,4 +32,11 @@ this.addEventListener('activate', event => {
       }))
     })
   ) 
+});
+
+this.addEventListener('message', (event) => {
+  if (event.data.type === 'add-markdown') {
+    pendingMarkdowns.push(event.data.markdown);
+    self.registration.sync.register('addMarkdown')
+  }
 });
