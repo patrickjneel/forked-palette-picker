@@ -207,14 +207,14 @@ const deletePalette = (event) => {
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     
-    navigator.serviceWorker.register('../service-worker.js')//../js.service-worker
-      .then(registration => navigator.serviceWorker.ready)
-      .then(registration => {
-        Notification.requestPermission();
-        console.log('ServiceWorker registration successful');
-      }).catch(err => {
-        console.log(`ServiceWorker registration failed: ${err}`);
-      });
+  navigator.serviceWorker.register('../service-worker.js')
+    .then(registration => navigator.serviceWorker.ready)
+    .then(registration => {
+      Notification.requestPermission();
+      console.log('ServiceWorker registration successful');
+    }).catch(err => {
+      console.log(`ServiceWorker registration failed: ${err}`);
+    });
 
   });
 }

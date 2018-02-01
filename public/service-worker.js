@@ -1,15 +1,15 @@
 this.addEventListener('install', event => {
   event.waitUntil(
-      caches.open('palette-assets-v1').then(cache => {
-        return cache.addAll([
-          '/',
-          '/css/styles.css',
-          '/pantone.svg'
-          '/js/scripts.js',
-          '/js/jquery.min.js'
-        ])
-      })
-    )
+    caches.open('palette-assets-v1').then(cache => {
+      return cache.addAll([
+        '/',
+        '/css/styles.css',
+        '/pantone.svg',
+        '/js/scripts.js',
+        '/js/jquery.js'
+      ])
+    })
+  );
 });
 
 this.addEventListener('fetch', event => {
@@ -17,21 +17,22 @@ this.addEventListener('fetch', event => {
     caches.match(event.request).then(response => {
       return response || fetch(event.request);
     })
-  )
+  );
 });
 
-this.addEventListener('activate', event => {
+this.addEventListener('activate', (event) => {
   let cacheWhitelist = ['palette-assets-v1'];
 
   event.waitUntil(
     caches.keys().then(keyList => {
       return Promise.all(keyList.map(key => {
-        if(cacheWhitelist.indexOf(key) === -1) {
-          return caches.delete(key)
+        if (cacheWhitelist.indexOf(key) === -1) {
+          return caches.delete(key);
         }
-      }))
+      }));
     })
-  ) 
+    .then(() => clients.claim())
+  );
 });
 
 this.addEventListener('message', (event) => {
@@ -40,3 +41,5 @@ this.addEventListener('message', (event) => {
     self.registration.sync.register('addMarkdown')
   }
 });
+
+
