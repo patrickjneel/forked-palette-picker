@@ -36,9 +36,8 @@ this.addEventListener('activate', (event) => {
 });
 
 this.addEventListener('message', (event) => {
-  if (event.data.type === 'add-markdown') {
-    pendingMarkdowns.push(event.data.markdown);
-    self.registration.sync.register('addMarkdown')
+  if (event.data.type === 'add-palette') {
+    self.registration.showNotification(`${event.data.paletteName} was added`)
   }
 });
 
