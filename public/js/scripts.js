@@ -1,4 +1,5 @@
 
+
 $(document).ready(() => {
   allColors()
   fetchProjects()
@@ -173,7 +174,6 @@ const savePalette = () => {
 }
 
 const postPalette = async (palette) => {
-    console.log(palette.projects_id)
   try {
     const postPalette = await fetch(`/api/v1/projects/${palette.projects_id}/palettes`, {
       method: 'POST',
@@ -183,6 +183,7 @@ const postPalette = async (palette) => {
       }
     })
       const paletteData = await postPalette.json()
+        notification(palette.paletteName)
       return paletteData
   } catch (err) {
     return err
@@ -202,22 +203,33 @@ const deletePalette = (event) => {
   $(event.target).closest('.template-color-card').remove()
 }
 
+const notification = (name) => {
+  navigator.serviceWorker.controller.postMessage({
+    type: 'add-palette',
+    paletteName: name
+  });
+}
+
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    
+  navigator.serviceWorker.register('../service-worker.js')
+    .then(registration => navigator.serviceWorker.ready)
+    .then(registration => {
+      Notification.requestPermission();
+      console.log('ServiceWorker registration successful');
+    }).catch(err => {
+      console.log(`ServiceWorker registration failed: ${err}`);
+    });
+
+  });
+}
+
+
 $("#generate-btn").on('click', allColors);
 $(".unlocked").on('click', (event) => lockColor(event));
 $("#project-generate-btn").on('click', addProjectName);
 $('#save-palette-btn').on('click', savePalette);
 $('#save-palette-btn').on('click', addDomPalette);
 $(".projects").on('click', '.trash-can', (event) => deletePalette(event));
-
-
-if('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('../../service-worker.js')
-      .then(registration => {
-        console.log('Service worker successful')
-      })
-      .catch(error => {
-        console.log('Registeration failed')
-      })
-  })
-} 
